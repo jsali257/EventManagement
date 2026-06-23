@@ -222,7 +222,7 @@ async function updateEmployeeStats(employeeId: string) {
     const volunteerHours = totalMinutes / 60;
 
     // Find last volunteer date
-    const lastRecord = attended.sort((a, b) =>
+    const lastRecord = attended.sort((a: { event: { startTime: string } }, b: { event: { startTime: string } }) =>
       new Date(b.event.startTime).getTime() - new Date(a.event.startTime).getTime()
     )[0];
 
