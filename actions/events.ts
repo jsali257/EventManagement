@@ -150,7 +150,7 @@ export async function updateEvent(
 
     // Notify assigned volunteers
     const userIds = event.assignments
-      .map((a) => a.employee.userId)
+      .map((a: { employee: { userId: string | null } }) => a.employee.userId)
       .filter(Boolean) as string[];
     if (userIds.length > 0) {
       await notifyEventUpdated(userIds, event.title, id);
@@ -210,7 +210,7 @@ export async function cancelEvent(
 
     // Notify all assigned volunteers
     const userIds = event.assignments
-      .map((a) => a.employee.userId)
+      .map((a: { employee: { userId: string | null } }) => a.employee.userId)
       .filter(Boolean) as string[];
     if (userIds.length > 0) {
       await notifyEventCancelled(userIds, event.title, id);
