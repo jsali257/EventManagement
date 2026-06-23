@@ -205,7 +205,7 @@ async function updateEmployeeStats(employeeId: string) {
     });
 
     const attended = allAttendance.filter(
-      (a) => a.status === "PRESENT" || a.status === "LATE"
+      (a: { status: string }) => a.status === "PRESENT" || a.status === "LATE"
     );
     const eventsAttended = attended.length;
     const totalRecords = allAttendance.length;
