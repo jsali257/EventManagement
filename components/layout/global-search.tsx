@@ -136,7 +136,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                 onSelect={() => handleSelect(link.href)}
                 className="flex items-center gap-3 px-3 py-2.5"
               >
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border bg-muted/50">
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-muted/50">
                   <link.icon className="h-3.5 w-3.5 text-muted-foreground" />
                 </div>
                 <span className="flex-1 text-sm">{link.label}</span>
@@ -156,7 +156,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                 onSelect={() => handleSelect(result.href)}
                 className="flex items-center gap-3 px-3 py-2.5"
               >
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border bg-muted/50">
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-muted/50">
                   <Users className="h-3.5 w-3.5 text-muted-foreground" />
                 </div>
                 <div className="flex flex-col min-w-0">
@@ -179,7 +179,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                 onSelect={() => handleSelect(result.href)}
                 className="flex items-center gap-3 px-3 py-2.5"
               >
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border bg-muted/50">
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-muted/50">
                   <CalendarDays className="h-3.5 w-3.5 text-muted-foreground" />
                 </div>
                 <div className="flex flex-col min-w-0">

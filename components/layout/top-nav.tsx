@@ -1,23 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
-import {
-  Bell,
-  Search,
-  Sun,
-  Moon,
-  Monitor,
-  LogOut,
-  User,
-  Settings,
-  ChevronDown,
-  Menu,
-  Command,
-} from "lucide-react";
+import { Bell, Search, Sun, Moon, LogOut, User, Settings, ChevronDown } from "lucide-react";
 import { useTheme } from "next-themes";
+import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -28,11 +16,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
@@ -55,7 +38,9 @@ export function TopNav({
   onSearchOpen,
 }: TopNavProps) {
   const router = useRouter();
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+  const toggleTheme = () => setTheme(isDark ? "light" : "dark");
 
   const handleSignOut = async () => {
     await signOut({ callbackUrl: "/login" });
@@ -82,28 +67,39 @@ export function TopNav({
 
       <div className="ml-auto flex items-center gap-1">
         {/* Theme toggle */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
-              <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              <span className="sr-only">Toggle theme</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
-              <DropdownMenuRadioItem value="light">
-                <Sun className="mr-2 h-4 w-4" /> Light
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="dark">
-                <Moon className="mr-2 h-4 w-4" /> Dark
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="system">
-                <Monitor className="mr-2 h-4 w-4" /> System
-              </DropdownMenuRadioItem>
-            </DropdownMenuRadioGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="relative h-8 w-8 overflow-hidden"
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {isDark ? (
+              <motion.div
+                key="moon"
+                initial={{ rotate: -90, scale: 0, opacity: 0 }}
+                animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                exit={{ rotate: 90, scale: 0, opacity: 0 }}
+                transition={{ duration: 0.18, ease: "easeInOut" }}
+                className="absolute"
+              >
+                <Moon className="h-4 w-4" />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="sun"
+                initial={{ rotate: 90, scale: 0, opacity: 0 }}
+                animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                exit={{ rotate: -90, scale: 0, opacity: 0 }}
+                transition={{ duration: 0.18, ease: "easeInOut" }}
+                className="absolute"
+              >
+                <Sun className="h-4 w-4" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </Button>
 
         {/* Notifications */}
         <Button
