@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { logActivity } from "@/lib/activity";
 import { uploadToStorage } from "@/lib/storage";
-import type { FileType } from "@prisma/client";
+type FileType = "PDF" | "WORD" | "EXCEL" | "IMAGE" | "OTHER";
 
 const MAX_SIZE_BYTES = 25 * 1024 * 1024;
 const ALLOWED_EXTENSIONS = new Set([
