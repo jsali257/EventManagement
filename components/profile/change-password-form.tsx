@@ -53,7 +53,7 @@ export function ChangePasswordForm() {
         form.reset();
       } else {
         if (result.fieldErrors) {
-          for (const [field, errors] of Object.entries(result.fieldErrors)) {
+          for (const [field, errors] of Object.entries(result.fieldErrors) as [string, string[]][]) {
             form.setError(field as keyof FormValues, { message: errors[0] });
           }
         } else {

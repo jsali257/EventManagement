@@ -99,7 +99,7 @@ export function EmployeeForm({
       } else {
         toast.error(result.error ?? "An error occurred");
         if (result.fieldErrors) {
-          for (const [field, errors] of Object.entries(result.fieldErrors)) {
+          for (const [field, errors] of Object.entries(result.fieldErrors) as [string, string[]][]) {
             form.setError(field as keyof FormValues, {
               message: errors[0],
             });
