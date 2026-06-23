@@ -13,11 +13,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Volunteer Management System",
-    template: "%s | Volunteer Management System",
+    default: "RGV911 Volunteer Management",
+    template: "%s | RGV911 Volunteer Management",
   },
   description:
-    "Community Outreach & Volunteer Management System for the Public Education Department",
+    "RGV911 Community Outreach & Volunteer Management System — Public Education Department",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,

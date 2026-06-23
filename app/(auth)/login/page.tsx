@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { LoginForm } from "@/components/auth/login-form";
-import { Building2, Shield } from "lucide-react";
+import { Shield } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Sign In | Volunteer Management System",
+  title: "Sign In | RGV911 Volunteer Management",
 };
 
 export default function LoginPage() {
@@ -12,11 +12,15 @@ export default function LoginPage() {
     <div className="flex min-h-screen flex-col items-center justify-center px-4 py-12">
       {/* Logo & Branding */}
       <div className="mb-8 flex flex-col items-center text-center">
-        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-500/20 ring-1 ring-blue-500/30 backdrop-blur-sm">
-          <Building2 className="h-8 w-8 text-blue-400" />
+        <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-white shadow-lg">
+          <img
+            src="/api/image-proxy?url=https%3A%2F%2Fapi.rgv911.org%2Fapi%2Fshares%2FuG1ey4BLcia0Z8z-XYtFf3pJxBfnvFB1%2Fview%2FRGV911-Logo_pqibpo.png"
+            alt="RGV911"
+            className="h-16 w-16 object-contain"
+          />
         </div>
         <h1 className="text-2xl font-bold tracking-tight text-white">
-          Volunteer Management System
+          RGV911 Volunteer Management
         </h1>
         <p className="mt-1 text-sm text-blue-200/70">
           Public Education Department

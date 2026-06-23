@@ -1,15 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
 
 const STORAGE_BASE = process.env.STORAGE_API_URL!;
 const API_KEY = process.env.STORAGE_API_KEY!;
 
 export async function GET(req: NextRequest) {
-  const session = await auth();
-  if (!session?.user) {
-    return new NextResponse("Unauthorized", { status: 401 });
-  }
-
   const url = req.nextUrl.searchParams.get("url");
   if (!url) {
     return new NextResponse("Missing url param", { status: 400 });

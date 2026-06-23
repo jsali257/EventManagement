@@ -8,6 +8,12 @@ import {
   Search,
   ArrowRight,
   Loader2,
+  LayoutDashboard,
+  UserCheck,
+  ClipboardList,
+  BarChart3,
+  Plus,
+  FileText,
 } from "lucide-react";
 import {
   CommandDialog,
@@ -18,7 +24,6 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { Badge } from "@/components/ui/badge";
 
 interface SearchResult {
   type: "employee" | "event";
@@ -32,6 +37,17 @@ interface GlobalSearchProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
+const quickLinks = [
+  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard, shortcut: "G D" },
+  { label: "Events", href: "/events", icon: CalendarDays, shortcut: "G E" },
+  { label: "Create New Event", href: "/events/new", icon: Plus, shortcut: "C E" },
+  { label: "Volunteer Board", href: "/volunteer-board", icon: UserCheck, shortcut: "G V" },
+  { label: "Employees", href: "/employees", icon: Users, shortcut: "G P" },
+  { label: "Attendance", href: "/attendance", icon: ClipboardList, shortcut: "G A" },
+  { label: "Reports", href: "/reports", icon: BarChart3, shortcut: "G R" },
+  { label: "Documents", href: "/documents", icon: FileText, shortcut: "G F" },
+];
 
 export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
   const router = useRouter();
@@ -74,6 +90,11 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
     return () => clearTimeout(timer);
   }, [query, search]);
 
+  // Reset query when closed
+  useEffect(() => {
+    if (!open) setQuery("");
+  }, [open]);
+
   const handleSelect = (href: string) => {
     onOpenChange(false);
     router.push(href);
@@ -91,71 +112,106 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
       />
       <CommandList>
         {isLoading && (
-          <div className="flex items-center justify-center py-6">
+          <div className="flex items-center justify-center py-8">
             <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+            <span className="ml-2 text-sm text-muted-foreground">Searching...</span>
           </div>
         )}
+
         {!isLoading && query && results.length === 0 && (
-          <CommandEmpty>No results found for &quot;{query}&quot;</CommandEmpty>
+          <CommandEmpty>
+            <div className="flex flex-col items-center gap-1 py-6">
+              <Search className="h-8 w-8 text-muted-foreground/40" />
+              <p className="text-sm text-muted-foreground">No results for &quot;{query}&quot;</p>
+              <p className="text-xs text-muted-foreground/60">Try searching by name, location, or category</p>
+            </div>
+          </CommandEmpty>
         )}
+
         {!isLoading && !query && (
-          <CommandGroup heading="Quick Links">
-            <CommandItem onSelect={() => handleSelect("/dashboard")}>
-              <Search className="mr-2 h-4 w-4" />
-              Dashboard
-            </CommandItem>
-            <CommandItem onSelect={() => handleSelect("/events/new")}>
-              <CalendarDays className="mr-2 h-4 w-4" />
-              Create New Event
-            </CommandItem>
-            <CommandItem onSelect={() => handleSelect("/volunteer-board")}>
-              <Users className="mr-2 h-4 w-4" />
-              Volunteer Board
-            </CommandItem>
+          <CommandGroup heading="Quick Navigation">
+            {quickLinks.map((link) => (
+              <CommandItem
+                key={link.href}
+                onSelect={() => handleSelect(link.href)}
+                className="flex items-center gap-3 px-3 py-2.5"
+              >
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border bg-muted/50">
+                  <link.icon className="h-3.5 w-3.5 text-muted-foreground" />
+                </div>
+                <span className="flex-1 text-sm">{link.label}</span>
+                <kbd className="hidden sm:inline-flex h-5 select-none items-center gap-0.5 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-60">
+                  {link.shortcut}
+                </kbd>
+              </CommandItem>
+            ))}
           </CommandGroup>
         )}
+
         {employees.length > 0 && (
           <CommandGroup heading="Employees">
             {employees.map((result) => (
               <CommandItem
                 key={result.id}
                 onSelect={() => handleSelect(result.href)}
-                className="flex items-center gap-2"
+                className="flex items-center gap-3 px-3 py-2.5"
               >
-                <Users className="h-4 w-4 text-muted-foreground" />
-                <div className="flex flex-col">
-                  <span className="text-sm">{result.title}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {result.subtitle}
-                  </span>
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border bg-muted/50">
+                  <Users className="h-3.5 w-3.5 text-muted-foreground" />
                 </div>
-                <ArrowRight className="ml-auto h-3.5 w-3.5 text-muted-foreground" />
+                <div className="flex flex-col min-w-0">
+                  <span className="text-sm truncate">{result.title}</span>
+                  <span className="text-xs text-muted-foreground truncate">{result.subtitle}</span>
+                </div>
+                <ArrowRight className="ml-auto h-3.5 w-3.5 shrink-0 text-muted-foreground/50" />
               </CommandItem>
             ))}
           </CommandGroup>
         )}
+
         {employees.length > 0 && events.length > 0 && <CommandSeparator />}
+
         {events.length > 0 && (
           <CommandGroup heading="Events">
             {events.map((result) => (
               <CommandItem
                 key={result.id}
                 onSelect={() => handleSelect(result.href)}
-                className="flex items-center gap-2"
+                className="flex items-center gap-3 px-3 py-2.5"
               >
-                <CalendarDays className="h-4 w-4 text-muted-foreground" />
-                <div className="flex flex-col">
-                  <span className="text-sm">{result.title}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {result.subtitle}
-                  </span>
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border bg-muted/50">
+                  <CalendarDays className="h-3.5 w-3.5 text-muted-foreground" />
                 </div>
-                <ArrowRight className="ml-auto h-3.5 w-3.5 text-muted-foreground" />
+                <div className="flex flex-col min-w-0">
+                  <span className="text-sm truncate">{result.title}</span>
+                  <span className="text-xs text-muted-foreground truncate">{result.subtitle}</span>
+                </div>
+                <ArrowRight className="ml-auto h-3.5 w-3.5 shrink-0 text-muted-foreground/50" />
               </CommandItem>
             ))}
           </CommandGroup>
         )}
       </CommandList>
+
+      {/* Footer */}
+      <div className="flex items-center gap-4 border-t px-4 py-2.5 text-[11px] text-muted-foreground/60">
+        <span className="flex items-center gap-1.5">
+          <kbd className="inline-flex h-4 items-center rounded border bg-muted px-1 font-mono text-[10px]">↑↓</kbd>
+          Navigate
+        </span>
+        <span className="flex items-center gap-1.5">
+          <kbd className="inline-flex h-4 items-center rounded border bg-muted px-1 font-mono text-[10px]">↵</kbd>
+          Open
+        </span>
+        <span className="flex items-center gap-1.5">
+          <kbd className="inline-flex h-4 items-center rounded border bg-muted px-1 font-mono text-[10px]">Esc</kbd>
+          Close
+        </span>
+        <span className="ml-auto flex items-center gap-1.5">
+          <kbd className="inline-flex h-4 items-center rounded border bg-muted px-1 font-mono text-[10px]">⌘K</kbd>
+          Toggle
+        </span>
+      </div>
     </CommandDialog>
   );
 }

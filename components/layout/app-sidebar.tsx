@@ -16,7 +16,6 @@ import {
   History,
   Shield,
   ChevronRight,
-  Building2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -84,13 +83,17 @@ export function AppSidebar({ user, notificationCount = 0 }: AppSidebarProps) {
     <Sidebar collapsible="icon" className="border-r">
       <SidebarHeader className="border-b border-sidebar-border p-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-            <Building2 className="h-5 w-5" />
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg overflow-hidden bg-white shadow-sm">
+            <img
+              src="/api/image-proxy?url=https%3A%2F%2Fapi.rgv911.org%2Fapi%2Fshares%2FuG1ey4BLcia0Z8z-XYtFf3pJxBfnvFB1%2Fview%2FRGV911-Logo_pqibpo.png"
+              alt="RGV911"
+              className="h-8 w-8 object-contain"
+            />
           </div>
           {!isCollapsed && (
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-semibold text-sidebar-foreground leading-none">
-                Volunteer MS
+                RGV911 Volunteer MS
               </p>
               <p className="truncate text-xs text-sidebar-foreground/60 mt-0.5">
                 Public Education Dept.
