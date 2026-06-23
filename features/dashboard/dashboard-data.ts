@@ -96,7 +96,7 @@ export async function getDashboardStats() {
 }
 
 export async function getMonthlyChartData() {
-  const months = [];
+  const months: { month: string; events: number; volunteers: number }[] = [];
   for (let i = 5; i >= 0; i--) {
     const date = subMonths(new Date(), i);
     const start = startOfMonth(date);
