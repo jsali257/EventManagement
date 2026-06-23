@@ -101,7 +101,7 @@ async function main() {
     { id: "EMP008", first: "Michael", last: "Taylor", title: "GIS Analyst", dept: departments[0].id, color: avatarColors[7] },
   ];
 
-  const employees = [];
+  const employees: { id: string }[] = [];
   for (const emp of employeeData) {
     const email = `${emp.first.toLowerCase()}.${emp.last.toLowerCase()}@department.gov`;
     const password = await bcrypt.hash("Employee@123!", 10);
